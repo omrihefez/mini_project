@@ -11,7 +11,7 @@ def CeilIndex(A, l, r, key):
             l = m
     return r
 
-def LongestIncreasingSubsequenceLength(A, size, shouldPrintLIS=False):
+def LongestIncreasingSubsequenceWeight(A, size, shouldPrintLIS=False):
 
     #first sort the array by x coordinate
     
@@ -22,9 +22,11 @@ def LongestIncreasingSubsequenceLength(A, size, shouldPrintLIS=False):
    
     tailTable = [Node(-1,-1) for i in range(size + 1)]
     len = 0 # always points empty slot
+    weight = 0
    
     tailTable[0] = A[0]
     len = 1
+    weight = A[0].weight
     for i in range(1, size):
       
         if (A[i].lessThan(tailTable[0])):
@@ -38,6 +40,7 @@ def LongestIncreasingSubsequenceLength(A, size, shouldPrintLIS=False):
             # largest subsequence
             tailTable[len] = A[i]
             len+= 1
+            weight += A[i].weight
    
         else:
             # A[i] wants to be current
@@ -48,14 +51,14 @@ def LongestIncreasingSubsequenceLength(A, size, shouldPrintLIS=False):
           
     if shouldPrintLIS:
         printLIS(constructPrintLIS(A, size))
-    return len
+    return weight
 
 
 
 # Utility function to print LIS
 def printLIS(arr: list):
     for e in arr:
-        print("Node({},{})".format(e.x,e.y), end="\n")
+        print("Node({},{}) with weight {}".format(e.x,e.y, e.weight), end="\n")
     print()
  
 # Function to construct and print Longest Increasing
