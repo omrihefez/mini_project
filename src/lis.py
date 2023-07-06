@@ -11,13 +11,13 @@ def CeilIndex(A, l, r, key):
             l = m
     return r
 
-def LongestIncreasingSubsequenceWeight(A, size, shouldPrintLIS=False):
+def LongestIncreasingSubsequenceWeight(A, shouldPrintLIS=False):
 
     #first sort the array by x coordinate
     
     A.sort(key=lambda x: x.x)
 
-    LIS = constructPrintLIS(A, size)
+    LIS = longest_increasing_weighted_sequence(A)
     weight = 0
     for e in LIS:
         weight += e.weight
@@ -72,3 +72,36 @@ def constructPrintLIS(arr: list, n: int):
  
     # max will contain LIS
     return maxx
+
+
+def longest_increasing_weighted_sequence(nodes):
+    n = len(nodes)
+    # Sort the nodes in increasing order of x and y
+    nodes.sort(key=lambda node: (node.x, node.y))
+    # Initialize the memoization table
+    memo = [0] * n
+    # Initialize the longest increasing weighted sequence to be the weight of each node
+    prev = [-1] * n
+    for i in range(n):
+        memo[i] = nodes[i].weight
+        prev[i] = -1
+    # Dynamic programming: find the longest increasing weighted sequence that ends at each node
+    for i in range(1, n):
+        for j in range(i):
+            if nodes[i].greaterOrEqual(nodes[j]) and memo[i] < memo[j] + nodes[i].weight:
+                memo[i] = memo[j] + nodes[i].weight
+                prev[i] = j
+    # Find the index of the node with the maximum weight
+    max_index = 0
+    for i in range(1, n):
+        if memo[i] > memo[max_index]:
+            max_index = i
+    # Reconstruct the longest increasing weighted sequence
+    sequence = []
+    while max_index != -1:
+        sequence.append(nodes[max_index])
+        max_index = prev[max_index]
+    # Reverse the sequence to get it in the correct order
+    sequence.reverse()
+    # Return the list of nodes in the longest increasing weighted sequence
+    return sequence

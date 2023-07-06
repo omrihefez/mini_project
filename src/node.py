@@ -1,4 +1,5 @@
 class Node:
+    
     def __init__(self, x, y, weight=1):
         self.x = x
         self.y = y
@@ -12,3 +13,5 @@ class Node:
     
     def greaterOrEqual(self, other):
         return self.x >= other.x and self.y >= other.y
+    
+    
