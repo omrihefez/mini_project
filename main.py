@@ -1,34 +1,29 @@
-from generatePoints import generatePointsNoOverlap
+import pathlib
+
 from src.lis import LongestIncreasingSubsequenceWeight, printLIS
 from src.algorithm import algorithm
 from src.parse import parse
 
-for i in range (1, 21):
+pwd = pathlib.Path(__file__).parent.resolve().__str__()
+
+for i in range (20, 21):
     numOfFlipped = 0
-    for j in range(1, 1001, 10):
-        A = parse('/home/omri/study/mini_project/data/data{}.csv'.format(i))
+    for j in range(950, 1001, 10):
+        A = parse(pwd + '/data/data{}.csv'.format(i))
 
         weight, LIS = LongestIncreasingSubsequenceWeight(A, False)
 
-        # print("The nodes in the Longest Increasing Subsequence are: ")
-        # printLIS(LIS)
-        # print("Weight of Longest Increasing Subsequence is {}".format(weight))
-
         numOfRetries = j
-        flipped = algorithm(A, numOfRetries)
+        flipped = algorithm(A, numOfRetries, True)
         # print("number of nodes flipped: {}".format(len(flipped)))
         # print("The nodes that were flipped are: ")
         # printLIS(flipped)
         if len(flipped) > numOfFlipped:
             numOfFlipped = len(flipped)
-            outputFile = open('/home/omri/study/mini_project/results/results{}.csv'.format(i), 'w')
+            outputFile = open(pwd + '/results/results{}.csv'.format(i), 'w')
             #write flipped to outputFile
             outputFile.write("number of nodes flipped: {}\n".format(len(flipped)))
             for node in flipped:
-                outputFile.write("node - {},{}, weight - {}\n".format(node.x, node.y, node.weight))
+                outputFile.write("{},{}\n".format(node.x, node.y))
             outputFile.close()
   
-# print("Weight of Longest Increasing Subsequence is ",
-#        LongestIncreasingSubsequenceWeight(A, n, True))
-
-# constructPrintLIS(A, n)

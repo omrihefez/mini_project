@@ -1,7 +1,7 @@
 from src.lis import LongestIncreasingSubsequenceWeight, printLIS
 from random import uniform
 
-def algorithm(nodes, numOfRetries):
+def algorithm(nodes, numOfRetries, printProgress = False):
     maxWeight, LIS  = LongestIncreasingSubsequenceWeight(nodes, False)
     while numOfRetries > 0:
         node = flipNode(nodes, LIS)
@@ -13,7 +13,7 @@ def algorithm(nodes, numOfRetries):
         else:
             node.weight = 1
             numOfRetries -= 1
-            if numOfRetries % 10 == 0:
+            if printProgress & (numOfRetries % 10 == 0):
                 print("numOfRetries: {}".format(numOfRetries))
     return flippedNodes(nodes)
     
